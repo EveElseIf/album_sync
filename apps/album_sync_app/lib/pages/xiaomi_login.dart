@@ -41,6 +41,8 @@ class _XiaomiLoginPageState extends State<XiaomiLoginPage> {
         MaterialPageRoute(builder: (ctx) => const ImageGridPage()),
       );
     } catch (ex) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(ex.toString())));
       rethrow;
     }
   }
