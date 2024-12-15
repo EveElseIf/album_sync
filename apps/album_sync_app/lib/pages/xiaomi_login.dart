@@ -51,7 +51,7 @@ class _XiaomiLoginPageState extends State<XiaomiLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form Page'),
+        title: Text('Xiaomi Login Page'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -75,7 +75,7 @@ class _XiaomiLoginPageState extends State<XiaomiLoginPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _onSubmit,
-              child: Text('确定'),
+              child: Text('Submit'),
             ),
           ],
         ),

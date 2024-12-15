@@ -1,6 +1,7 @@
 .dart_tool
 .idea
 *.iml
+DerivedData
 
 # melos
 pubspec_overrides.yaml
