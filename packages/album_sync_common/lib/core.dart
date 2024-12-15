@@ -4,9 +4,20 @@ part 'core.g.dart';
 
 abstract interface class AlbumService {
   String get serviceName;
+
   Future<List<Album>> getAlbums();
+
   Future reload();
+
   Future init();
+
+  AlbumServiceStatus get status;
+}
+
+enum AlbumServiceStatus {
+  created,
+  initialized,
+  disposed,
 }
 
 @JsonSerializable()
@@ -33,8 +44,10 @@ class AlbumServiceException implements Exception {
   final String serviceName;
   final StackTrace stackTrace;
   final Object? innerException;
+
   AlbumServiceException(this.message, this.serviceName, this.stackTrace,
       {this.innerException});
+
   @override
   String toString() =>
       "$serviceName: $message\nStack trace: $stackTrace\nInner Exception: $innerException";

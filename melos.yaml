@@ -6,6 +6,4 @@ packages:
 
 scripts:
   build:
-    packageFilters:
-      scope: "album_sync_common"
     exec: "dart run build_runner build"

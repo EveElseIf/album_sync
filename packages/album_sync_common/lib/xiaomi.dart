@@ -12,13 +12,16 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 class XiaomiConfig {
   final String username, password, deviceId;
+
   XiaomiConfig(this.username, this.password, this.deviceId);
 }
 
 class XiaomiAlbumService implements AlbumService {
   final _XiaomiConnector _connector;
+
   Dio get dio => _connector.dio;
   final Cookies? cookies;
+  AlbumServiceStatus _status = AlbumServiceStatus.created;
 
   XiaomiAlbumService(
     XiaomiConfig config, {
@@ -30,6 +33,7 @@ class XiaomiAlbumService implements AlbumService {
 
   void dispose() {
     _connector.dispose();
+    _status = AlbumServiceStatus.disposed;
   }
 
   Future<Cookies> saveCookies() async {
@@ -62,6 +66,7 @@ class XiaomiAlbumService implements AlbumService {
     } else {
       await reload();
     }
+    _status = AlbumServiceStatus.initialized;
   }
 
   @override
@@ -103,6 +108,9 @@ class XiaomiAlbumService implements AlbumService {
 
   @override
   String get serviceName => "XIAOMI";
+
+  @override
+  AlbumServiceStatus get status => _status;
 }
 
 class _XiaomiConnector {
