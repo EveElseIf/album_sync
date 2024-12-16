@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 typedef Cookies = List<Cookie>;
@@ -9,10 +10,11 @@ extension Serialization on Cookies {
       buf.write(cookie.toString());
       buf.writeCharCode(1);
     }
-    return buf.toString();
+    return base64Encode(utf8.encode(buf.toString()));
   }
 
-  static Cookies deserialize(String content) {
+  static Cookies deserialize(String data) {
+    final content = utf8.decode(base64Decode(data));
     final lines = content.split("\x01").where((x) => x != "").toList();
     final Cookies ret = [];
     for (var line in lines) {
