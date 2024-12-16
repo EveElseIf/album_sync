@@ -100,9 +100,15 @@ class XiaomiAlbumService implements AlbumService {
       }
       return ret;
     } catch (ex) {
+      bool? unauthorized;
+      if (ex is DioException) {
+        if (ex.response?.statusCode == 401) {
+          unauthorized = true;
+        }
+      }
       throw AlbumServiceRequestException(
           "fail to get albums", serviceName, StackTrace.current,
-          innerException: ex);
+          innerException: ex, unauthorized: unauthorized ?? false);
     }
   }
 

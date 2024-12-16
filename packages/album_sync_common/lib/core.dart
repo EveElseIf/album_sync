@@ -1,6 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'core.g.dart';
+
+part 'core.freezed.dart';
 
 abstract interface class AlbumService {
   String get serviceName;
@@ -20,23 +22,19 @@ enum AlbumServiceStatus {
   disposed,
 }
 
-@JsonSerializable()
-class Album {
-  String? thumbnailUrl;
-  String id, userId, name;
-  int mediaCount;
-  DateTime lastUpdateTime;
-  dynamic extra;
+@freezed
+class Album with _$Album {
+  const factory Album({
+    required String id,
+    required String userId,
+    required String name,
+    required int mediaCount,
+    required DateTime lastUpdateTime,
+    String? thumbnailUrl,
+    dynamic extra,
+  }) = _Album;
 
-  Album({
-    required this.id,
-    required this.userId,
-    required this.name,
-    required this.mediaCount,
-    required this.lastUpdateTime,
-    this.thumbnailUrl,
-    this.extra,
-  });
+  factory Album.fromJson(Map<String, Object?> json) => _$AlbumFromJson(json);
 }
 
 class AlbumServiceException implements Exception {
@@ -54,7 +52,9 @@ class AlbumServiceException implements Exception {
 }
 
 class AlbumServiceRequestException extends AlbumServiceException {
+  final bool unauthorized;
+
   AlbumServiceRequestException(
       super.message, super.serviceName, super.stackTrace,
-      {super.innerException});
+      {super.innerException, this.unauthorized = false});
 }
