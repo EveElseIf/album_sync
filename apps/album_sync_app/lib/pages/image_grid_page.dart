@@ -41,6 +41,12 @@ class _ImageGridPageState extends State<ImageGridPage> {
     }
   }
 
+  Future<void> logout() async {
+    final db = AppDatabase();
+    await db.delete(db.xiaomiConfigItem).go();
+    await initService();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -74,14 +80,21 @@ class _ImageGridPageState extends State<ImageGridPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: isLoading ? null : fetchImageUrls,
-              child: isLoading
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text('Load Images'),
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: isLoading ? null : fetchImageUrls,
+                    child: isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text('Load Images'),
+                  ),
+                  ElevatedButton(
+                    onPressed: logout,
+                    child: const Text("Logout"),
+                  ),
+                ],
+              )),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
